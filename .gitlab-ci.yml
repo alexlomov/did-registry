@@ -1,11 +1,10 @@
 stages:
   - test
 
-
 test:
   stage: test
-  image: hseeberger/scala-2.13-sbt:8u222_1.3.3_2.13.1
+#  image: hseeberger/scala-2.13-sbt:8u222_1.3.3_2.13.1
   script:
     - sbt clean test
   tags:
-    - docker
+#    - docker
