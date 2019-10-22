@@ -7,4 +7,4 @@ test:
   script:
     - sbt clean test
   tags:
-    - docker
+    - gitlab-runner-docker
