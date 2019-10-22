@@ -4,5 +4,7 @@ stages:
 test:
   stage: test
   image: hseeberger/scala-sbt:8u222_1.3.3_2.13.1
+  services:
+    - docker:19.03-dind
   script:
     - sbt clean test
