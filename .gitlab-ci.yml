@@ -1,5 +1,6 @@
 stages:
   - test
+  - build
 
 services:
   - docker:dind
@@ -16,3 +17,9 @@ test:
   cache:
     paths:
       - ~/.ivy2
+
+dockerize:
+  stage: build
+  image: hseeberger/scala-sbt:8u222_1.3.3_2.13.1
+  script:
+    - sbt docker:publishLocal
