@@ -40,10 +40,6 @@ object types {
     fragment: Option[Fragment] = none,
   )
 
-  final case class Proof(
-
-  )
-
   //TODO: Add Proof
   final case class DidDocument(
     context: NonEmptyList[Uri],

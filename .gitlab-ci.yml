@@ -12,4 +12,7 @@ test:
   stage: test
   image: hseeberger/scala-sbt:8u222_1.3.3_2.13.1
   script:
-    - sbt clean test
+    - sbt clean testOnly *.ProofSuite *.OpsSuite *.DidParserSuite
+  cache:
+    paths:
+      - ~/.ivy2
