@@ -14,7 +14,7 @@ class StorageOpsSuite extends FunSpecLike with Matchers with BeforeAndAfterAll {
     it("can load the document it just wrote") {
 
       val d = for {
-        ops <- StorageOps[SyncIO](sys.env("TMPDIR"))
+        ops <- StorageOps[SyncIO](sys.env.getOrElse("TMPDIR", "."))
         _ <- ops.storeDidDocument(Doc)
         l <- ops.loadDidDocument(Doc.id)
       } yield l

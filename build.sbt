@@ -18,6 +18,8 @@ val izumiVersion = "0.9.4"
 val parboiledVersion = "2.1.8"
 val testcontainersVersion = "1.12.2"
 val testcontainersScalaVersion = "0.33.0"
+val tsecVersion = "0.2.0-M2"
+val nameOfVersion = "1.0.3"
 
 val scalaTestVersion = "3.0.8"
 
@@ -46,6 +48,10 @@ libraryDependencies ++= Seq(
   "io.7mind.izumi" %% "logstage-rendering-circe" % izumiVersion,
   "io.7mind.izumi" %% "logstage-adapter-slf4j" % izumiVersion,
 
+  "io.github.jmcardon" %% "tsec-signatures" % tsecVersion,
+  "io.github.jmcardon" %% "tsec-hash-jca" % tsecVersion,
+  "org.bouncycastle" % "bcpkix-jdk15on" % "1.64",
+
   "org.scalatest" %% "scalatest" % scalaTestVersion % Test,
   "io.circe" %% "circe-literal" % circeVersion % Test,
   "org.tpolecat" %% "doobie-scalatest" % doobieVersion % Test,
@@ -55,10 +61,9 @@ libraryDependencies ++= Seq(
  // compilerPlugin("com.github.ghik" %% "silencer-plugin" % silencerVersion),
 
 //  "com.github.ghik" %% "silencer-lib" % silencerVersion % Provided,
-//  "com.github.dwickern" %% "scala-nameof" % nameOfVersion % Provided
 ).map(_.withSources())
 
-addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.10.3")
+addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.11.0" cross CrossVersion.full)
 
 enablePlugins(JavaAppPackaging)
 
