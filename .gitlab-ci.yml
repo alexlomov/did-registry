@@ -14,7 +14,7 @@ test:
   image: hseeberger/scala-sbt:8u222_1.3.3_2.13.1
   script:
     - sbt clean
-    - sbt testOnly *.ProofSuite *.OpsSuite *.DidParserSuite
+    - sbt test
   cache:
     paths:
       - ~/.ivy2
