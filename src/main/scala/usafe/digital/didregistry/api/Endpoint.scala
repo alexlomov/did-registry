@@ -3,6 +3,8 @@ package usafe.digital.didregistry.api
 import cats.Show
 import cats.effect.Sync
 import cats.syntax.all._
+import izumi.logstage.api.IzLogger
+import izumi.logstage.sink.ConsoleSink
 import org.http4s.dsl.Http4sDsl
 import org.http4s.headers.Location
 import org.http4s.{EntityDecoder, EntityEncoder, HttpRoutes, MediaType}
@@ -20,12 +22,17 @@ private[api] class Endpoint[F[_]](
 
   private val DID_DOCUMENTS = "did-documents"
 
+  private val logger = logstage.LogIO.fromLogger[F](
+    IzLogger(logstage.IzLogger.Level.Debug, ConsoleSink.text(true))
+  )
+
   def findDocuments(
     findFn: Did => F[DidDocument]
   ): HttpRoutes[F] = HttpRoutes.of {
-    case GET -> Root / DID_DOCUMENTS :? CreatorQueryParameterMatcher(cre) =>
+    case GET -> Root / DID_DOCUMENTS :? CreatorQueryParameterMatcher(did) =>
       for {
-        found <- findFn(cre).attempt
+        found <- findFn(did).attempt
+        _ <- logger.info(s"Searching $did")
         resp <- found match  {
           case Right(dd) =>
             Ok(List(dd))

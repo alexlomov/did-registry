@@ -22,6 +22,8 @@ final class StorageOps[F[_]: Async: ContextShift] private[jdbc] (jdbcConnection:
     putDid: Put[Did]
   ) {
 
+  implicit val han: LogHandler = LogHandler.jdkLogHandler
+
   private val jdbcProps = new java.util.Properties()
 
   jdbcProps.putAll(

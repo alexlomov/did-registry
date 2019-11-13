@@ -38,7 +38,15 @@ object types {
     path: Option[Path] = none,
     queryParameters: DocOptionalArray[Parameter] = none,
     fragment: Option[Fragment] = none,
-  )
+  ) {
+    override def toString: String = {
+      import implicits.showDid
+      import cats.implicits._
+      this.show
+    }
+  }
+
+
 
   //TODO: Add Proof
   final case class DidDocument(

@@ -33,7 +33,7 @@ object Server extends IOApp {
     store <- Async[F].pure(StorageOps[F](jdbcConnection))
     endpoint = Endpoint[F]
     r = Router[F]("/" ->
-      (endpoint.getDidDocument(store.load) <+> endpoint.postDidDocument(store.store) <+> endpoint.findDocuments(store.findByPublicKeyId))
+      (endpoint.findDocuments(store.findByPublicKeyId) <+> endpoint.getDidDocument(store.load) <+> endpoint.postDidDocument(store.store))
     )
   } yield r
 
