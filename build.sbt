@@ -69,7 +69,7 @@ enablePlugins(JavaAppPackaging)
 enablePlugins(DockerPlugin)
 
 dockerBaseImage := "openjdk:8u212-jre-alpine"
-packageName in Docker := "usafe/did-registry"
+packageName in Docker := "git.usafe.digital:4567/usafe/did-registry"
 
 dockerCommands ++= Seq(
   Cmd("USER", "root"),

@@ -131,7 +131,7 @@ object implicits {
   implicit val ctxDecoder: Decoder[NonEmptyList[Uri]] = singleContextElementDecoder or multiContextElementDecoder
 
 
-  implicit val DidDocumentDecoder: Decoder[DidDocument] = Decoder.instance { c =>
+  implicit val didDocumentDecoder: Decoder[DidDocument] = Decoder.instance { c =>
     for {
       ctx <- c.downField("@context").as[NonEmptyList[Uri]]
       id <- c.downField("id").as[Did]

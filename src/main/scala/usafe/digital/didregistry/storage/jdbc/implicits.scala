@@ -13,7 +13,7 @@ import usafe.digital.didregistry.implicits.showDid
 
 object implicits {
 
-  import usafe.digital.didregistry.implicits.{didDocumentEncoder, DidDocumentDecoder}
+  import usafe.digital.didregistry.implicits.{didDocumentEncoder, didDocumentDecoder}
 
   implicit val jsonMeta: Meta[Json] = Meta.Advanced.other[PGobject]("jsonb")
     .timap[Json](o => parse(o.getValue).leftMap[Json](e => throw e).merge)(j => {

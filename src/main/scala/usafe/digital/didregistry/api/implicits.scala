@@ -10,7 +10,7 @@ import usafe.digital.didregistry.types.{Did, DidDocument}
 
 object implicits {
 
-  import usafe.digital.didregistry.implicits.{didDocumentEncoder, DidDocumentDecoder}
+  import usafe.digital.didregistry.implicits.{didDocumentEncoder, didDocumentDecoder}
 
   implicit def didDocumentEntityEncoder[F[_]: Applicative]: EntityEncoder[F, DidDocument] = jsonEncoderOf
   implicit def didDocumentArrayEntityEncoder[F[_]: Applicative]: EntityEncoder[F, List[DidDocument]] = jsonEncoderOf
