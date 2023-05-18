@@ -1,0 +1,46 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  test:
+    name: 'Test'
+    runs-on: ubuntu-latest 
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+    container: hseeberger/scala-sbt:8u222_1.3.3_2.13.1
+    steps:
+      - run: sbt clean testOnly *.ProofSuite *.OpsSuite *.DidParserSuite
+    steps:
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.ivy2
+
+  #   # Checkout the repository to the GitHub Actions runner
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v2
+  #     - name: Set variables
+  #       run: |
+  #         VER=$(cat VERSION)
+  #         echo "VERSION=$VER" >> $GITHUB_ENV
+ 
+  #     - name: Log into to the registry
+  #       uses: docker/login-action@v1
+  #       with:
+  #         registry: ${{ secrets.ACR_REGISTRY_LOGIN_SERVER }}
+  #         username: ${{ secrets.ACR_REGISTRY_USERNAME }}
+  #         password: ${{ secrets.ACR_REGISTRY_PASSWORD }}
+
+  #     - name: Build the image and push it to the registry
+  #       uses: docker/build-push-action@v2
+  #       with:
+  #         push: true
+  #         tags: ${{ secrets.ACR_REGISTRY_LOGIN_SERVER }}/${{ github.repository }}:${{ env.VERSION }}
+  #         file: ./Dockerfile
