@@ -17,7 +17,6 @@ jobs:
     container: hseeberger/scala-sbt:8u222_1.3.3_2.13.1
     steps:
       - run: sbt clean testOnly *.ProofSuite *.OpsSuite *.DidParserSuite
-    steps:
       - name: Cache node modules
         uses: actions/cache@v3
         with:
