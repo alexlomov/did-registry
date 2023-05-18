@@ -1,4 +1,4 @@
-name: Register_docker_image_in_the_registry
+name: Test
 
 on:
   push:
