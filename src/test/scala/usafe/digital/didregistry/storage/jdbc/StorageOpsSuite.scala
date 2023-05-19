@@ -127,7 +127,7 @@ class StorageOpsSuite extends FunSuite with Matchers with doobie.scalatest.IOChe
         info(e.getMessage)
         succeed
       case Right(_) =>
-        fail
+        fail()
     }
   }
 

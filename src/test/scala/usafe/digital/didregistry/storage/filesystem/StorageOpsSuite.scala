@@ -19,7 +19,7 @@ class StorageOpsSuite extends FunSpecLike with Matchers with BeforeAndAfterAll {
         l <- ops.loadDidDocument(Doc.id)
       } yield l
 
-      d.unsafeRunSync shouldEqual Doc
+      d.unsafeRunSync() shouldEqual Doc
 
 
     }

@@ -96,7 +96,6 @@ scalacOptions ++= Seq(
   "-Xlint:infer-any",                  // Warn when a type argument is inferred to be `Any`.
   "-Xmacro-settings:materialize-derivations", //Explain internal macro derivations
   "-Xlint:missing-interpolator",       // A string literal appears to be missing an interpolator id.
-  "-Xlint:nullary-override",           // Warn when non-nullary `def f()' overrides nullary `def f'.
   "-Xlint:nullary-unit",               // Warn when nullary methods return Unit.
   "-Xlint:option-implicit",            // Option.apply used implicit view.
   "-Xlint:package-object-classes",     // Class or object defined in package object.
