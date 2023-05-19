@@ -16,12 +16,11 @@ jobs:
         shell: bash
     container: hseeberger/scala-sbt:8u222_1.3.3_2.13.1
     steps:
-      - run: sbt clean testOnly *.ProofSuite *.OpsSuite *.DidParserSuite
-    steps:
       - name: Cache node modules
         uses: actions/cache@v3
         with:
           path: ~/.ivy2
+      - run: sbt clean testOnly *.ProofSuite *.OpsSuite *.DidParserSuite
 
   #   # Checkout the repository to the GitHub Actions runner
   #     - name: Checkout repository
