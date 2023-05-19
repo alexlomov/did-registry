@@ -32,7 +32,9 @@ object Server extends IOApp {
   private def httpRoutes[F[_]: Async: ContextShift](jdbcConnection: JdbcConnection): F[HttpRoutes[F]] = for {
     store <- Async[F].pure(StorageOps[F](jdbcConnection))
     endpoint = Endpoint[F]
-    r = Router[F]("/" -> (endpoint.getDidDocument(store.load) <+> endpoint.postDidDocument(store.store)))
+    r = Router[F]("/" ->
+      (endpoint.findDocuments(store.findByPublicKeyId) <+> endpoint.getDidDocument(store.load) <+> endpoint.postDidDocument(store.store))
+    )
   } yield r
 
 }

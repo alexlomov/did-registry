@@ -1,9 +1,10 @@
 package usafe.digital.didregistry.api
 
+import cats.Show
 import cats.effect.Sync
-import cats.syntax.applicativeError._
-import cats.syntax.flatMap._
-import cats.syntax.functor._
+import cats.syntax.all._
+import izumi.logstage.api.IzLogger
+import izumi.logstage.sink.ConsoleSink
 import org.http4s.dsl.Http4sDsl
 import org.http4s.headers.Location
 import org.http4s.{EntityDecoder, EntityEncoder, HttpRoutes, MediaType}
@@ -15,20 +16,26 @@ private[api] class Endpoint[F[_]](
   implicit F: Sync[F],
   didDocumentEntityEncoder: EntityEncoder[F, DidDocument],
   didDocumentArrayEntityEncoder: EntityEncoder[F, List[DidDocument]],
-  didDocumentEntityDecoder: EntityDecoder[F, DidDocument]
+  didDocumentEntityDecoder: EntityDecoder[F, DidDocument],
+  showDid: Show[Did]
 ) extends Http4sDsl[F] {
 
   private val DID_DOCUMENTS = "did-documents"
 
+  private val logger = logstage.LogIO.fromLogger[F](
+    IzLogger(logstage.IzLogger.Level.Debug, ConsoleSink.text(true))
+  )
+
   def findDocuments(
-    findFn: Did => F[List[DidDocument]]
+    findFn: Did => F[DidDocument]
   ): HttpRoutes[F] = HttpRoutes.of {
-    case GET -> Root / DID_DOCUMENTS :? CreatorQueryParameterMatcher(cre) =>
+    case GET -> Root / DID_DOCUMENTS :? CreatorQueryParameterMatcher(did) =>
       for {
-        found <- findFn(cre).attempt
+        found <- findFn(did).attempt
+        _ <- logger.info(s"Searching $did")
         resp <- found match  {
           case Right(dd) =>
-            Ok(dd)
+            Ok(List(dd))
           case Left(DidValidationFault(m)) =>
             BadRequest(m)
           case Left(DocumentNotFound(_)) =>
@@ -71,7 +78,7 @@ private[api] class Endpoint[F[_]](
         resp <- posted match {
           case Right(_) =>
             Created().map(
-              _.withHeaders(Location(req.uri / dd.id.toString))
+              _.withHeaders(Location(req.uri / dd.id.show))
             )
           case Left(DidDocumentValidationFault(m)) =>
             BadRequest(m)
@@ -88,6 +95,7 @@ private[api] class Endpoint[F[_]](
 
 object Endpoint {
   import implicits._
+  import usafe.digital.didregistry.implicits.showDid
   def apply[F[_]: Sync]: Endpoint[F] = new Endpoint[F]
 }
 

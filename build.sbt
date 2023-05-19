@@ -1,8 +1,10 @@
+import com.typesafe.sbt.packager.docker._
+
 name := "did-registry"
 
 organization := "usafe.digital"
 
-version := "0.1.0"
+version := "0.1.1"
 
 scalaVersion := "2.13.1"
 
@@ -47,9 +49,6 @@ libraryDependencies ++= Seq(
   "io.7mind.izumi" %% "logstage-core" % izumiVersion,
   "io.7mind.izumi" %% "logstage-rendering-circe" % izumiVersion,
   "io.7mind.izumi" %% "logstage-adapter-slf4j" % izumiVersion,
-
-  "io.github.jmcardon" %% "tsec-signatures" % tsecVersion,
-  "io.github.jmcardon" %% "tsec-hash-jca" % tsecVersion,
   "org.bouncycastle" % "bcpkix-jdk15on" % "1.64",
 
   "org.scalatest" %% "scalatest" % scalaTestVersion % Test,
@@ -66,6 +65,16 @@ libraryDependencies ++= Seq(
 addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.11.0" cross CrossVersion.full)
 
 enablePlugins(JavaAppPackaging)
+
+enablePlugins(DockerPlugin)
+
+dockerBaseImage := "openjdk:8u212-jre-alpine"
+packageName in Docker := "git.usafe.digital:4567/usafe/did-registry"
+
+dockerCommands ++= Seq(
+  Cmd("USER", "root"),
+  Cmd("RUN", "apk update && apk upgrade && apk add bash && apk add nss")
+)
 
 scalacOptions ++= Seq(
   "-deprecation",                      // Emit warning and location for usages of deprecated APIs.
