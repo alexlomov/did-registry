@@ -4,9 +4,9 @@ name := "did-registry"
 
 organization := "usafe.digital"
 
-version := "0.1.1"
+version := "0.1.2"
 
-scalaVersion := "2.13.1"
+scalaVersion := "2.13.10"
 
 val catsVersion = "2.0.0"
 val catsEffectVersion = "2.0.0"
@@ -19,7 +19,7 @@ val fs2Version = "2.0.0"
 val izumiVersion = "0.9.4"
 val parboiledVersion = "2.1.8"
 val testcontainersVersion = "1.12.2"
-val testcontainersScalaVersion = "0.33.0"
+val testcontainersScalaVersion = "0.40.15"
 val tsecVersion = "0.2.0-M2"
 val nameOfVersion = "1.0.3"
 
